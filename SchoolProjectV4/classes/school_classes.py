@@ -204,7 +204,6 @@ class School:
         
         # read from file
         with open(path_to_csv) as f:
-            a = f.readline()
             list_from_file = f.readlines()            
             pass
         print (len(list_from_file))
@@ -217,26 +216,7 @@ class School:
         #     res = cursor.execute(sql)
         #     pass # END SQL
         
-        with sqlite3.connect(self.PATH_TO_FILE_DATABASE) as conn:
-            cursor = conn.cursor()
-            list_persons = []
-            for i in range(len(list_from_file)):
-                ls = []
-                l_c = [0, 6, 9 , 10]
-                for j in range(len(list_from_file[i].split(","))):
-                    if j in l_c:
-                        ls.append(int(list_from_file[i].split(",")[j]))
-                        pass
-                    else:
-                        ls.append(list_from_file[i].split(",")[j])
-                        pass
-                    pass
-                list_persons.append(ls)
-            
-            try:
-                cursor.executemany(c.SQL_ADD_RECORD_PERSONS, list_persons)
-            except sqlite3.OperationalError as err:
-                print (F"Error: {err}")
+        
         
         pass
     
@@ -290,37 +270,3 @@ class School:
     
     pass
 
-class Person():  
-    
-    def __init__(self, person_data: tuple[str]) -> None:  #  Person(res[0])
-        # 
-        self.person_id = int(person_data[0])
-        self.first_name = person_data[1]
-        self.last_name = person_data[2]
-        self.email = person_data[3]
-        self.address = person_data[4]
-        self.tel = person_data[5]
-        self.salary = float(person_data[6])
-        self.login = person_data[7]
-        self.password = person_data[8]
-        self.position_id = int(person_data[9])
-        self.course_id = int(person_data[10])
-        pass
-    
-    def __str__(self) -> str:
-        out_string = "Person: "
-        out_string += F"id: {self.person_id} "
-        out_string += F"name: {self.first_name} "
-        out_string += F"last name: {self.last_name} "
-        out_string += F"email: {self.email} "
-        out_string += F"address: {self.address} "
-        out_string += F"tel: {self.tel} "
-        out_string += F"salary: {self.salary} "
-        out_string += F"login: {self.login} "
-        out_string += F"password: {self.password} "
-        out_string += F"position id: {self.position_id} "
-        out_string += F"course id: {self.course_id} "
-        
-        return out_string
-    
-    pass
