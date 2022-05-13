@@ -143,6 +143,8 @@ class School:
                             pass
                         case "3":
                             # Import table PERSONS from csv
+                            self.__drop_table(c.SQL_DROP_TABLE_PERSONS)
+                            self.__create_table(c.SQL_CREATE_TABLE_PERSONS)
                             self.__import_from_csv(self.PATH_TO_CSV_PERSONS, c.SQL_IMPORT_CSV_PERSONS)
                             pass
                         case "4":
@@ -162,6 +164,8 @@ class School:
                             pass
                         case "7":
                             # Import table POSITIONS from csv
+                            self.__drop_table(c.SQL_DROP_TABLE_POSITIONS)
+                            self.__create_table(c.SQL_CREATE_TABLE_POSITIONS)
                             self.__import_from_csv(self.PATH_TO_CSV_POSITIONS, c.SQL_IMPORT_CSV_POSITIONS)
                             pass
                         case "8":
@@ -181,6 +185,8 @@ class School:
                             pass
                         case "11":
                             # Import table COURSES from csv
+                            self.__drop_table(c.SQL_DROP_TABLE_COURSES)
+                            self.__create_table(c.SQL_CREATE_TABLE_COURSES)
                             self.__import_from_csv(self.PATH_TO_CSV_COURSES, c.SQL_IMPORT_CSV_COURSES)
                             pass
                         case "12":
@@ -206,6 +212,11 @@ class School:
     
     def __import_from_csv (self, path_to_csv: str, sql: str):
         
+        # drop old table
+        
+        
+        # create new table
+        
         # read from file
         with open(path_to_csv) as f:
             headers_from_file = f.readline()
@@ -227,19 +238,34 @@ class School:
             # query database
             with sqlite3.connect(self.PATH_TO_FILE_DATABASE) as conn:
                 cursor = conn.cursor() # Create cursor object to operate with DB
+                print (F"{c.SET_GREEN_FG}Importing data from {path_to_csv}{c.RESET_COLOR}")
                 cursor.executemany(sql,values_list)
+                print (F"{c.SET_GREEN_FG}Data imported successfully{c.RESET_COLOR}")
                 pass # END SQL
         except sqlite3.OperationalError as err:
-            print ("Persons database not detected, default admin loaded")
-            self.__registered_user = School.__default_admin            
+            print(F"{err}")           
             pass 
         
         
         pass
     
     def __add_table_record(self, sql: str):
+        # create record form console input
+        # input data from console:
         
-        
+        values_list = ["first_name", "last_name", "email", "address", "phone", "salary", "position", "course", "grade", "year"]
+        try:
+            # query database
+            with sqlite3.connect(self.PATH_TO_FILE_DATABASE) as conn:
+                cursor = conn.cursor() # Create cursor object to operate with DB
+                print (F"{c.SET_GREEN_FG}Importing data {c.RESET_COLOR}")
+                cursor.executemany(sql,values_list)
+                pass # END SQL
+        except sqlite3.OperationalError as err:
+            print(F"{err}")           
+            pass 
+        finally:
+            print (F"{c.SET_GREEN_FG}Data imported successfully{c.RESET_COLOR}")
         pass
     
     def __create_table(self, sql: str):

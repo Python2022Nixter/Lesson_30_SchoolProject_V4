@@ -15,6 +15,8 @@ SET_BLACK_FG = "\u001b[38;2;0;0;0m"
 SET_YELLOW_BG = "\u001b[48;2;255;255;0m"
 SET_WHITE_BG = "\u001b[48;2;255;255;255m"
 RESET_COLOR = "\u001b[0m"
+SET_INFO_MESSAGE_COLOR = "\u001b[38;2;0;255;0m"
+SET_GREEN_FG = "\u001b[38;2;0;255;0m"
 
 # SQL queries
 SQL_GET_USER_BY_LOGIN = F"""
@@ -58,7 +60,11 @@ CREATE TABLE IF NOT EXISTS "{TABLE_NAME_POSITIONS}" (
 );
 """
 
-SQL_ADD_RECORD_PERSONS = """"""
+SQL_ADD_RECORD_PERSONS = """
+INSERT INTO "{TABLE_NAME_PERSONS}" 
+("first_name","last_name","email","address","tel","salary","login","password","position_id","course_id") 
+VALUES 
+(?,?,?,?,?,?,?,?,?,?);"""
 SQL_ADD_RECORD_COURSES = """"""
 SQL_ADD_RECORD_POSITIONS = """"""
 
@@ -70,11 +76,15 @@ VALUES
 (?,?,?,?,?,?,?,?,?,?);
 
 """
-SQL_IMPORT_CSV_COURSES = """
-
+SQL_IMPORT_CSV_COURSES = f"""
+INSERT INTO "{TABLE_NAME_COURSES}" 
+("course_name","syllabus","description")
+VALUES (?, ?, ?);
 """
-SQL_IMPORT_CSV_POSITIONS = """
-
+SQL_IMPORT_CSV_POSITIONS = f"""
+INSERT INTO "{TABLE_NAME_POSITIONS}" 
+("position_name","description")
+VALUES (?, ?);
 """
 
 
