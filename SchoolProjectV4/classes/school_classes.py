@@ -204,18 +204,29 @@ class School:
         
         # read from file
         with open(path_to_csv) as f:
-            list_from_file = f.readlines()            
+            headers_from_file = f.readline() # skip first line
+            rows_from_file = f.readlines()            
             pass
         print (len(list_from_file))
-        print (list_from_file[0])
+        print (rows_from_file[0])
+        print (rows_from_file[1])
+        print (rows_from_file[2])
         
-        # TO DO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        # populate DB table
-        # with sqlite3.connect(self.PATH_TO_FILE_DATABASE) as conn:
-        #     cursor = conn.cursor()
-        #     res = cursor.execute(sql)
-        #     pass # END SQL
+        # create values list -> for SQL query
+        """
+        ["first_name", "last_name", "email", "address", "tel", "salary", "login", "password", "position_id", "course_id"]
+
+        """
+        value_list = []
         
+        try:
+            with sqlite3.connect(self.PATH_TO_FILE_DATABASE) as conn:
+                cursor = conn.cursor()
+                cursor.executemany(sql, value_list)
+        except sqlite3.OperationalError as err:
+            print ("Error: ", err)
+                
+            pass
         
         
         pass

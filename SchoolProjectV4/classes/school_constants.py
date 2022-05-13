@@ -41,15 +41,16 @@ SQL_CREATE_TABLE_POSITIONS = """
 """
 
 SQL_ADD_RECORD_PERSONS = """
-INSERT INTO "persons" ("person_id","first_name", "last_name", "email", "address", "tel", "salary", "login", "password", "position_id", "course_id")
-values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
 """
 SQL_ADD_RECORD_COURSES = """"""
 SQL_ADD_RECORD_POSITIONS = """"""
 
 
 SQL_IMPORT_CSV_PERSONS = """
-
+INSERT INTO {TABLE_NAME_PERSONS} 
+("first_name", "last_name", "email", "address", "tel", "salary", "login", "password", "position_id", "course_id")
+values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 """
 SQL_IMPORT_CSV_COURSES = """
 
