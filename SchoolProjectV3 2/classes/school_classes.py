@@ -116,14 +116,10 @@ class School:
                 # create menu text string
                 
                 # START - creating menu string 
-                menu_string = f"{c.SET_YELLOW_BG}Administrator menu:{c.RESET_COLOR} \n"
+                menu_string = "Administrator menu: \n"
                 menu_string += F"press {0} to EXIT\n"
-                
-                # set color to red
-                os.system("\n") # даёт возможность выводить на экран последовательность команд
-                
                 for i in range(len(c.MENU_ADMIN)):
-                    menu_string += F"press {c.SET_RED_FG} {i+1} {c.SET_BLACK_FG} to {c.MENU_ADMIN[i]}\n"
+                    menu_string += F"press {i+1} to {c.MENU_ADMIN[i]}\n"
                     pass
                 # END - creating menu string 
                 
@@ -211,29 +207,20 @@ class School:
             headers_from_file = f.readline()
             rows_from_file = f.readlines()            
             pass
-
-        # create values -> list for SQL query
-        """
-        2,Laura,Dayer,ldayer1@springer.com,5 Roxbury Alley,321-886-6185,4000,Dayer_2,2wJX,2,10
-        convert to:
-        ['Laura', 'Dayer', 'ldayer1@springer.com', '5 Roxbury Alley', '321-886-6185', '4000', 'Dayer_2', '2wJX', '2', '10']
+        print (len(list_from_file))
+        print (rows_from_file[0])
+        print (rows_from_file[1])
+        print (rows_from_file[2])
         
-        """
+        # create values list
+        
         values_list = []
-        for n_row in rows_from_file: values_list.append(n_row.strip().split(",")[1:])         
+        for n_row in rows_from_file: values_list.append(n_row.strip().split(","))
         
-        # populate DB table
         try:
-            # query database
             with sqlite3.connect(self.PATH_TO_FILE_DATABASE) as conn:
-                cursor = conn.cursor() # Create cursor object to operate with DB
-                cursor.executemany(sql,values_list)
-                pass # END SQL
-        except sqlite3.OperationalError as err:
-            print ("Persons database not detected, default admin loaded")
-            self.__registered_user = School.__default_admin            
-            pass 
-        
+                cursor = conn.cursor()
+                cursor.executemany(sql, rows_from_file)
         
         pass
     
@@ -244,17 +231,11 @@ class School:
     
     def __create_table(self, sql: str):
         print(F"[__create_table(self, sql: str) - SQL query:\n{sql} ]")
-        try:
-            with sqlite3.connect(self.PATH_TO_FILE_DATABASE) as conn:
-                cursor = conn.cursor()
-                cursor.execute(sql)
-                pass # END SQL
-            pass
-        except sqlite3.Error as e:
-            print (e)
-            pass
-        
-        pass # END __create_table(self, sql: str)
+        with sqlite3.connect(self.PATH_TO_FILE_DATABASE) as conn:
+            cursor = conn.cursor()
+            res = cursor.execute(sql)
+            pass # END SQL
+        pass
     
     def __drop_table(self, sql: str):
         print(F"[__drop_table(self, sql: str) - SQL query:\n{sql} ]")
@@ -290,5 +271,40 @@ class School:
     
     
     
+    
+    pass
+
+class Person():  
+    
+    def __init__(self, person_data: tuple[str]) -> None:  #  Person(res[0])
+        # 
+        self.person_id = int(person_data[0])
+        self.first_name = person_data[1]
+        self.last_name = person_data[2]
+        self.email = person_data[3]
+        self.address = person_data[4]
+        self.tel = person_data[5]
+        self.salary = float(person_data[6])
+        self.login = person_data[7]
+        self.password = person_data[8]
+        self.position_id = int(person_data[9])
+        self.course_id = int(person_data[10])
+        pass
+    
+    def __str__(self) -> str:
+        out_string = "Person: "
+        out_string += F"id: {self.person_id} "
+        out_string += F"name: {self.first_name} "
+        out_string += F"last name: {self.last_name} "
+        out_string += F"email: {self.email} "
+        out_string += F"address: {self.address} "
+        out_string += F"tel: {self.tel} "
+        out_string += F"salary: {self.salary} "
+        out_string += F"login: {self.login} "
+        out_string += F"password: {self.password} "
+        out_string += F"position id: {self.position_id} "
+        out_string += F"course id: {self.course_id} "
+        
+        return out_string
     
     pass

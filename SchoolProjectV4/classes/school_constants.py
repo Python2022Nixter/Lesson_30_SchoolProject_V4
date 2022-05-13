@@ -6,8 +6,15 @@ FILE_CSV_PERSONS = "Persons_School_Python.csv"
 FILE_CSV_COURSES = "Courses_School_Python.csv"
 FILE_CSV_POSITIONS = "Positions_School_Python.csv"
 TABLE_NAME_PERSONS = "persons"
-TABLE_NAME_COURSES = ""
-TABLE_NAME_POSITIONS = ""
+TABLE_NAME_COURSES = "courses"
+TABLE_NAME_POSITIONS = "positions"
+
+# Colors
+SET_RED_FG = "\u001b[38;2;255;0;0m"
+SET_BLACK_FG = "\u001b[38;2;0;0;0m"
+SET_YELLOW_BG = "\u001b[48;2;255;255;0m"
+SET_WHITE_BG = "\u001b[48;2;255;255;255m"
+RESET_COLOR = "\u001b[0m"
 
 # SQL queries
 SQL_GET_USER_BY_LOGIN = F"""
@@ -33,24 +40,35 @@ CREATE TABLE IF NOT EXISTS "{TABLE_NAME_PERSONS}" (
 );
 
 """
-SQL_CREATE_TABLE_COURSES = """
-
+SQL_CREATE_TABLE_COURSES = f"""
+CREATE TABLE IF NOT EXISTS "{TABLE_NAME_COURSES}" (
+	"course_id"	INTEGER NOT NULL UNIQUE,
+	"course_name"	TEXT UNIQUE,
+	"syllabus"	TEXT,
+	"description"	TEXT,
+	PRIMARY KEY("course_id" AUTOINCREMENT)
+);
 """
-SQL_CREATE_TABLE_POSITIONS = """
-
+SQL_CREATE_TABLE_POSITIONS = f"""
+CREATE TABLE IF NOT EXISTS "{TABLE_NAME_POSITIONS}" (
+	"position_id"	INTEGER NOT NULL UNIQUE,
+	"position_name"	TEXT,
+	"description"	TEXT,
+	PRIMARY KEY("position_id" AUTOINCREMENT)
+);
 """
 
-SQL_ADD_RECORD_PERSONS = """
-
-"""
+SQL_ADD_RECORD_PERSONS = """"""
 SQL_ADD_RECORD_COURSES = """"""
 SQL_ADD_RECORD_POSITIONS = """"""
 
 
-SQL_IMPORT_CSV_PERSONS = """
-INSERT INTO {TABLE_NAME_PERSONS} 
-("first_name", "last_name", "email", "address", "tel", "salary", "login", "password", "position_id", "course_id")
-values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+SQL_IMPORT_CSV_PERSONS = F"""
+INSERT INTO "{TABLE_NAME_PERSONS}" 
+("first_name","last_name","email","address","tel","salary","login","password","position_id","course_id") 
+VALUES 
+(?,?,?,?,?,?,?,?,?,?);
+
 """
 SQL_IMPORT_CSV_COURSES = """
 
@@ -77,18 +95,18 @@ MENU_ADMIN = (
     "Add record to table: PERSONS",
     "Import table PERSONS from csv",
     "Drop table: PERSONS\n",
-
+    
     "Create table: POSITIONS",
     "Add record to table: POSITIONS",
     "Import table POSITIONS from csv",
     "Drop table: POSITIONS\n",
-
+    
     "Create table: COURSES",
     "Add record to table: COURSES",
     "Import table COURSES from csv",
     "Drop table: COURSES\n"
-
-
+    
+    
 )
 
 MENU_STUDENT = ()
